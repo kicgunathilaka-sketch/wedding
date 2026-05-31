@@ -102,8 +102,7 @@ export function Countdown() {
           initial={{ opacity: 0, y: 40, scale: 0.95 }}
           animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
           transition={{ duration: 0.9, delay: 0.2, ease: EASE }}
-          className="relative bg-white/8 backdrop-blur-xl border border-white/15 rounded-3xl px-8 py-12 md:px-14"
-          style={{ boxShadow: '0 0 80px rgba(183,110,121,0.22), 0 0 140px rgba(124,58,237,0.14)' }}
+          className="relative bg-white/8 backdrop-blur-xl border border-white/10 rounded-3xl px-8 py-12 md:px-14 card-deep"
         >
           {/* Top shimmer line */}
           <div

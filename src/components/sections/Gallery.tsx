@@ -146,8 +146,8 @@ function PhotoTile({ photo, index, isInView, onOpen }: {
   const tileRef   = useRef<HTMLDivElement>(null)
   const rawX = useMotionValue(0)
   const rawY = useMotionValue(0)
-  const rotX = useSpring(useTransform(rawY, [-1, 1], [8, -8]),  { stiffness: 200, damping: 30 })
-  const rotY = useSpring(useTransform(rawX, [-1, 1], [-8, 8]),  { stiffness: 200, damping: 30 })
+  const rotX = useSpring(useTransform(rawY, [-1, 1], [13, -13]), { stiffness: 200, damping: 30 })
+  const rotY = useSpring(useTransform(rawX, [-1, 1], [-13, 13]), { stiffness: 200, damping: 30 })
   const glareX = useTransform(rawX, [-1, 1], ['0%', '100%'])
   const glareY = useTransform(rawY, [-1, 1], ['0%', '100%'])
 
@@ -177,8 +177,8 @@ function PhotoTile({ photo, index, isInView, onOpen }: {
         onMouseLeave={onLeave}
         style={{ rotateX: rotX, rotateY: rotY, transformStyle: 'preserve-3d' }}
         className="relative overflow-hidden rounded-2xl"
-        whileHover={{ scale: 1.018 }}
-        transition={{ duration: 0.3, ease: 'easeOut' }}
+        whileHover={{ scale: 1.02, z: 18 }}
+        transition={{ duration: 0.35, ease: 'easeOut' }}
       >
         {/* Photo */}
         {/* eslint-disable-next-line @next/next/no-img-element */}

@@ -6,14 +6,13 @@ import { Calendar, Clock, MapPin, Shirt } from 'lucide-react'
 import { SectionDivider } from '@/components/ui/SectionDivider'
 import { AnimatedLetters } from '@/components/ui/AnimatedLetters'
 import { TiltCard }        from '@/components/ui/TiltCard'
-import { BackgroundOrbs }  from '@/components/ui/BackgroundOrbs'
+import { ScrollDepth }     from '@/components/ui/ScrollDepth'
 
 const EASE = [0.16, 1, 0.3, 1] as const
 
 const events = [
   {
     type: 'ceremony', title: 'Wedding Ceremony', emoji: '💐',
-    accentColor: 'from-purple/30 to-rose-gold/15',
     items: [
       { Icon: Calendar, label: 'Date',       value: 'Saturday, September 12, 2026' },
       { Icon: Clock,    label: 'Time',       value: '4:00 PM – 5:30 PM' },
@@ -21,10 +20,10 @@ const events = [
       { Icon: MapPin,   label: 'Address',    value: '1234 Vineyard Lane, Napa Valley, CA' },
       { Icon: Shirt,    label: 'Dress Code', value: 'Black Tie' },
     ],
+    accent: '#b76e79',
   },
   {
     type: 'reception', title: 'Wedding Reception', emoji: '🥂',
-    accentColor: 'from-rose-gold/15 to-purple/30',
     items: [
       { Icon: Calendar, label: 'Date',       value: 'Saturday, September 12, 2026' },
       { Icon: Clock,    label: 'Time',       value: '6:30 PM – Midnight' },
@@ -32,12 +31,8 @@ const events = [
       { Icon: MapPin,   label: 'Address',    value: '1234 Vineyard Lane, Napa Valley, CA' },
       { Icon: Shirt,    label: 'Dress Code', value: 'Black Tie' },
     ],
+    accent: '#9b72aa',
   },
-]
-
-const lightOrbs = [
-  { color: '#c8a2c8', size: 300, x: 80, y: 10, duration: 20 },
-  { color: '#9b72aa', size: 250, x: 5,  y: 70, duration: 24 },
 ]
 
 export function EventDetails() {
@@ -45,50 +40,76 @@ export function EventDetails() {
   const isInView = useInView(ref as React.RefObject<Element>, { once: true, margin: '-80px 0px' })
 
   return (
-    <section id="details" ref={ref} className="relative py-28 overflow-hidden"
+    <section
+      id="details" ref={ref}
+      className="relative py-28 overflow-hidden grain"
       style={{ background: 'linear-gradient(160deg, #e8dbff 0%, #f0e8ff 50%, #ddd0f8 100%)' }}
       aria-labelledby="details-heading"
     >
-      <BackgroundOrbs orbs={lightOrbs} opacity={0.08} />
+      {/* Multi-plane depth background */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+        <div className="absolute rounded-full" style={{ width: 550, height: 550, right: '-8%', top: '-5%', background: '#c8a2c8', opacity: 0.16, filter: 'blur(110px)' }} />
+        <div className="absolute rounded-full" style={{ width: 400, height: 400, left: '-6%', bottom: '8%', background: '#9b72aa', opacity: 0.13, filter: 'blur(90px)' }} />
+        <div className="absolute rounded-full" style={{ width: 200, height: 200, left: '40%', top: '50%', background: '#b76e79', opacity: 0.09, filter: 'blur(50px)' }} />
+        {/* Near plane accents */}
+        <div className="absolute rounded-full" style={{ width: 120, height: 120, right: '12%', bottom: '20%', background: '#dcc6f0', opacity: 0.20, filter: 'blur(18px)' }} />
+        <div className="absolute rounded-full" style={{ width: 80, height: 80, left: '18%', top: '15%', background: '#dcc6f0', opacity: 0.16, filter: 'blur(12px)' }} />
+      </div>
 
       <div className="relative z-10 max-w-5xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <motion.span initial={{ opacity:0, y:14 }} animate={isInView ? { opacity:1, y:0 } : {}}
-            transition={{ duration:0.7 }}
-            className="font-display text-purple-deep italic tracking-[0.35em] text-sm uppercase">Event</motion.span>
+        <ScrollDepth className="text-center mb-16">
+          <motion.span
+            initial={{ opacity: 0, y: 14 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7 }}
+            className="font-display text-purple-deep italic tracking-[0.35em] text-sm uppercase"
+          >
+            Event
+          </motion.span>
           <div className="overflow-visible mt-1">
             <AnimatedLetters text="Details" className="font-heading text-5xl md:text-6xl text-charcoal" />
           </div>
           <SectionDivider />
-        </div>
+        </ScrollDepth>
 
         <div className="grid md:grid-cols-2 gap-8">
           {events.map((ev, i) => (
-            <motion.div
-              key={ev.type}
-              initial={{ opacity: 0, y: 60, filter: 'blur(6px)' }}
-              animate={isInView ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}}
-              transition={{ duration: 0.95, delay: 0.15 + i * 0.2, ease: EASE }}
-            >
-              <TiltCard intensity={6} className="w-full h-full">
-                <article
-                  className="relative bg-white border border-purple/15 rounded-3xl p-8 overflow-hidden group h-full shadow-lg"
-                  aria-label={ev.title}
-                >
-                  {/* Animated gradient fill on hover */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${ev.accentColor} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} aria-hidden="true" />
+            <ScrollDepth key={ev.type} rotateAmount={4}>
+              <motion.div
+                initial={{ opacity: 0, y: 50, filter: 'blur(6px)' }}
+                animate={isInView ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}}
+                transition={{ duration: 0.95, delay: 0.1 + i * 0.18, ease: EASE }}
+                className="h-full"
+              >
+                <TiltCard intensity={8} className="w-full h-full">
+                  <motion.article
+                    className="relative rounded-3xl p-8 overflow-hidden h-full card-deep-light transition-all duration-500"
+                    style={{ background: 'rgba(255,255,255,0.94)', backdropFilter: 'blur(12px)' }}
+                    whileHover={{ y: -6 }}
+                    transition={{ duration: 0.3 }}
+                    aria-label={ev.title}
+                  >
+                    {/* Colored top bar */}
+                    <motion.div
+                      className="absolute top-0 left-0 right-0 h-[3px] rounded-t-3xl"
+                      style={{ background: `linear-gradient(90deg, transparent, ${ev.accent}80, transparent)` }}
+                      initial={{ scaleX: 0 }} animate={isInView ? { scaleX: 1 } : {}}
+                      transition={{ duration: 1.1, delay: 0.4 + i * 0.18, ease: EASE }}
+                      aria-hidden="true"
+                    />
 
-                  {/* Top accent line draws on enter */}
-                  <motion.div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-rose-gold/50 to-transparent"
-                    initial={{ scaleX: 0 }} animate={isInView ? { scaleX: 1 } : {}}
-                    transition={{ duration: 1, delay: 0.4 + i * 0.2, ease: EASE }} aria-hidden="true" />
+                    {/* Inner top highlight */}
+                    <div className="absolute top-0 left-0 right-0 h-px rounded-t-3xl bg-white/80" aria-hidden="true" />
 
-                  <div className="relative">
+                    {/* Floating emoji icon */}
                     <div className="flex items-center gap-4 mb-7">
                       <motion.div
-                        className="w-14 h-14 rounded-2xl bg-surface flex items-center justify-center text-2xl shrink-0"
-                        whileHover={{ scale: 1.18, rotate: 8 }}
-                        transition={{ type: 'spring', stiffness: 280 }}
+                        className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shrink-0"
+                        style={{
+                          background: `linear-gradient(135deg, rgba(255,255,255,0.9), rgba(240,232,255,0.8))`,
+                          boxShadow: `0 4px 12px rgba(155,114,170,0.2), 0 1px 0 rgba(255,255,255,0.9) inset`,
+                        }}
+                        whileHover={{ scale: 1.2, rotate: 8, y: -2 }}
+                        transition={{ type: 'spring', stiffness: 300 }}
                       >
                         {ev.emoji}
                       </motion.div>
@@ -97,13 +118,19 @@ export function EventDetails() {
 
                     <ul className="space-y-4">
                       {ev.items.map(({ Icon, label, value }, j) => (
-                        <motion.li key={label}
-                          initial={{ opacity: 0, x: -16 }}
+                        <motion.li
+                          key={label}
+                          initial={{ opacity: 0, x: -18 }}
                           animate={isInView ? { opacity: 1, x: 0 } : {}}
-                          transition={{ duration: 0.6, delay: 0.5 + i * 0.15 + j * 0.07, ease: EASE }}
-                          className="flex items-start gap-3"
+                          transition={{ duration: 0.55, delay: 0.5 + i * 0.14 + j * 0.06, ease: EASE }}
+                          className="flex items-start gap-3 py-1"
                         >
-                          <Icon size={15} className="text-rose-gold mt-0.5 shrink-0" aria-hidden="true" />
+                          <div
+                            className="mt-0.5 w-6 h-6 rounded-lg flex items-center justify-center shrink-0"
+                            style={{ background: `${ev.accent}18` }}
+                          >
+                            <Icon size={13} style={{ color: ev.accent }} aria-hidden="true" />
+                          </div>
                           <div>
                             <dt className="font-sans text-[10px] text-charcoal-soft uppercase tracking-[0.15em]">{label}</dt>
                             <dd className="font-sans text-sm text-charcoal mt-0.5">{value}</dd>
@@ -111,10 +138,10 @@ export function EventDetails() {
                         </motion.li>
                       ))}
                     </ul>
-                  </div>
-                </article>
-              </TiltCard>
-            </motion.div>
+                  </motion.article>
+                </TiltCard>
+              </motion.div>
+            </ScrollDepth>
           ))}
         </div>
       </div>

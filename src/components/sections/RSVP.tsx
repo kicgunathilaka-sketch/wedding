@@ -198,8 +198,7 @@ export function RSVP() {
               initial={{ opacity: 0, y: 40 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.9, delay: 0.2, ease: EASE }}
-              className="bg-white/6 backdrop-blur-xl border border-white/12 rounded-3xl p-8"
-              style={{ boxShadow: '0 0 60px rgba(124,58,237,0.18), 0 0 120px rgba(183,110,121,0.08)' }}
+              className="bg-white/7 backdrop-blur-xl border border-white/10 rounded-3xl p-8 card-deep"
             >
               <AnimatePresence mode="wait">
                 {submitted ? (
