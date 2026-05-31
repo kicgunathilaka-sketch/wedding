@@ -247,13 +247,12 @@ function RingsScene() {
       <pointLight position={[0, 2, 7]} intensity={0.9} color="#ffe8d6" />
 
       <Sparkles
-        count={isMobile ? 35 : 55}
-        scale={isMobile ? 5 : 9}
-        size={1.2}
-        speed={0.28}
-        opacity={0.45}
+        count={isMobile ? 18 : 30}
+        scale={isMobile ? 4 : 7}
+        size={1.0}
+        speed={0.22}
+        opacity={0.38}
         color="#dcc6f0"
-        noise={0.6}
       />
 
       <Ring
@@ -283,7 +282,7 @@ export function WeddingRingsScene() {
     <Canvas
       camera={{ position: [0, 0, 8], fov: 40 }}
       gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
-      dpr={[1, 1.5]}
+      dpr={[1, 1]}
       style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 5 }}
     >
       <Suspense fallback={null}>

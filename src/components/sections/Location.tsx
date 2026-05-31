@@ -16,11 +16,10 @@ export function Location() {
   return (
     <section
       id="location" ref={ref}
-      className="relative py-28 overflow-hidden grain"
+      className="relative py-28 overflow-hidden"
       style={{ background: 'linear-gradient(160deg, #f0e8ff 0%, #ddd0f8 50%, #e8dbff 100%)' }}
       aria-labelledby="location-heading"
     >
-      {/* Depth layers */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
         <div className="absolute rounded-full" style={{ width: 480, height: 480, left: '-6%', top: '-8%', background: '#c8a2c8', opacity: 0.15, filter: 'blur(100px)' }} />
         <div className="absolute rounded-full" style={{ width: 380, height: 380, right: '-5%', bottom: '0%', background: '#9b72aa', opacity: 0.12, filter: 'blur(85px)' }} />
@@ -43,10 +42,9 @@ export function Location() {
         </ScrollDepth>
 
         <div className="grid md:grid-cols-5 gap-8 items-stretch">
-          {/* Map */}
           <motion.div
-            initial={{ opacity: 0, x: -50, filter: 'blur(6px)' }}
-            animate={isInView ? { opacity: 1, x: 0, filter: 'blur(0px)' } : {}}
+            initial={{ opacity: 0, x: -50 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.9, ease: EASE }}
             className="md:col-span-3 rounded-3xl overflow-hidden min-h-[300px] card-deep-light"
           >
@@ -60,15 +58,14 @@ export function Location() {
             />
           </motion.div>
 
-          {/* Info panel */}
           <motion.div
-            initial={{ opacity: 0, x: 50, filter: 'blur(6px)' }}
-            animate={isInView ? { opacity: 1, x: 0, filter: 'blur(0px)' } : {}}
+            initial={{ opacity: 0, x: 50 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.9, delay: 0.15, ease: EASE }}
             className="md:col-span-2"
           >
             <motion.div
-              className="flex flex-col justify-between h-full rounded-3xl p-8 gap-8 card-deep-light transition-all duration-400"
+              className="flex flex-col justify-between h-full rounded-3xl p-8 gap-8 card-deep-light transition-all duration-300"
               style={{ background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(12px)' }}
               whileHover={{ y: -6 }}
               transition={{ duration: 0.3 }}
@@ -96,7 +93,7 @@ export function Location() {
                 <motion.a
                   href="https://maps.google.com/maps?q=Napa+Valley+California"
                   target="_blank" rel="noopener noreferrer"
-                  whileHover={{ scale: 1.02, y: -2, boxShadow: '0 8px 24px rgba(183,110,121,0.4)' }}
+                  whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
                   className="flex items-center justify-center gap-2 w-full bg-rose-gold text-white font-sans text-xs tracking-[0.15em] uppercase py-3.5 rounded-xl hover:bg-rose-light transition-colors duration-300"
                 >

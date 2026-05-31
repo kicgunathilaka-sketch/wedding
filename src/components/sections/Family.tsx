@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
@@ -13,7 +13,7 @@ const EASE = [0.16, 1, 0.3, 1] as const
 const families = [
   {
     side: 'bride', heading: 'The Bride', subheading: 'Sandali & Her Family',
-    photo: '/gallery/p9.jpg', emoji: '🌸',
+    photo: '/gallery/p9.jpg', emoji: 'ðŸŒ¸',
     parents: 'Mr. & Mrs. Jayawardena',
     members: [
       { name: 'Mr. Jayawardena',    role: 'Father of the Bride' },
@@ -26,7 +26,7 @@ const families = [
   },
   {
     side: 'groom', heading: 'The Groom', subheading: 'Isuru & His Family',
-    photo: '/gallery/p7.jpg', emoji: '🌿',
+    photo: '/gallery/p7.jpg', emoji: 'ðŸŒ¿',
     parents: 'Mr. & Mrs. Perera',
     members: [
       { name: 'Mr. Perera',   role: 'Father of the Groom' },
@@ -34,7 +34,7 @@ const families = [
       { name: 'Nuwan Perera', role: 'Brother of the Groom' },
       { name: 'Amaya Perera', role: 'Sister of the Groom' },
     ],
-    quote: '"Our son found his forever — and our hearts could not be more full."',
+    quote: '"Our son found his forever â€” and our hearts could not be more full."',
     accentColor: '#9b72aa',
   },
 ]
@@ -46,16 +46,16 @@ export function Family() {
   return (
     <section
       id="family" ref={ref}
-      className="relative py-28 overflow-hidden grain"
+      className="relative py-28 overflow-hidden"
       style={{ background: 'linear-gradient(135deg, #130828 0%, #2a1258 45%, #1e0d3e 100%)' }}
       aria-labelledby="family-heading"
     >
-      {/* Depth background — three planes */}
+      {/* Depth background â€” three planes */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
         <div className="absolute rounded-full" style={{ width: 600, height: 600, left: '-10%', top: '5%', background: '#7c3aed', opacity: 0.20, filter: 'blur(120px)' }} />
         <div className="absolute rounded-full" style={{ width: 450, height: 450, right: '-8%', bottom: '5%', background: '#b76e79', opacity: 0.18, filter: 'blur(90px)' }} />
         <div className="absolute rounded-full" style={{ width: 280, height: 280, left: '45%', top: '30%', background: '#5b21b6', opacity: 0.14, filter: 'blur(60px)' }} />
-        {/* Near plane — creates foreground depth */}
+        {/* Near plane â€” creates foreground depth */}
         <div className="absolute rounded-full" style={{ width: 140, height: 140, left: '8%', bottom: '20%', background: '#dcc6f0', opacity: 0.08, filter: 'blur(24px)' }} />
         <div className="absolute rounded-full" style={{ width: 100, height: 100, right: '10%', top: '18%', background: '#c8a2c8', opacity: 0.08, filter: 'blur(16px)' }} />
       </div>
@@ -77,7 +77,7 @@ export function Family() {
 
         <div className="grid md:grid-cols-2 gap-8">
           {families.map((fam, i) => (
-            <ScrollDepth key={fam.side} rotateAmount={4}>
+            <ScrollDepth key={fam.side}>
               <motion.div
                 initial={{ opacity: 0, y: 55, filter: 'blur(6px)' }}
                 animate={isInView ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}}
@@ -158,3 +158,4 @@ export function Family() {
     </section>
   )
 }
+

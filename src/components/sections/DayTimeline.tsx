@@ -26,11 +26,10 @@ export function DayTimeline() {
   return (
     <section
       id="schedule" ref={ref}
-      className="relative py-28 overflow-hidden grain"
+      className="relative py-28 overflow-hidden"
       style={{ background: 'linear-gradient(160deg, #e8dbff 0%, #f0e8ff 60%, #ddd0f8 100%)' }}
       aria-labelledby="schedule-heading"
     >
-      {/* Depth background layers */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
         <div className="absolute rounded-full" style={{ width: 500, height: 500, right: '-5%', top: '0%', background: '#9b72aa', opacity: 0.14, filter: 'blur(100px)' }} />
         <div className="absolute rounded-full" style={{ width: 350, height: 350, left: '-4%', bottom: '5%', background: '#c8a2c8', opacity: 0.12, filter: 'blur(80px)' }} />
@@ -53,7 +52,6 @@ export function DayTimeline() {
         </ScrollDepth>
 
         <ol aria-label="Day schedule" className="relative">
-          {/* Animated vertical track */}
           <motion.div
             className="absolute left-7 top-0 w-px"
             style={{ background: 'linear-gradient(to bottom, rgba(183,110,121,0.7), rgba(155,114,170,0.5), transparent)' }}
@@ -66,35 +64,29 @@ export function DayTimeline() {
           {schedule.map((item, i) => (
             <motion.li
               key={i}
-              initial={{ opacity: 0, x: -40, filter: 'blur(4px)' }}
-              animate={isInView ? { opacity: 1, x: 0, filter: 'blur(0px)' } : {}}
+              initial={{ opacity: 0, x: -40 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.7, delay: 0.3 + i * 0.1, ease: EASE }}
               className="relative flex items-start gap-5 mb-6 last:mb-0 group"
             >
-              {/* 3D icon node */}
               <motion.div
                 className="relative z-10 flex-shrink-0 w-14 h-14 rounded-2xl flex items-center justify-center text-xl"
                 style={{
                   background: 'linear-gradient(145deg, rgba(255,255,255,0.96), rgba(240,232,255,0.85))',
-                  boxShadow:
-                    'inset 0 1px 0 rgba(255,255,255,0.9), inset 0 0 0 1px rgba(155,114,170,0.15), 0 2px 4px rgba(155,114,170,0.12), 0 8px 20px rgba(155,114,170,0.12), 0 24px 40px rgba(155,114,170,0.07)',
+                  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.9), inset 0 0 0 1px rgba(155,114,170,0.15), 0 2px 4px rgba(155,114,170,0.12), 0 8px 20px rgba(155,114,170,0.12), 0 24px 40px rgba(155,114,170,0.07)',
                 }}
-                whileHover={{ scale: 1.15, rotate: 6, y: -3, boxShadow: 'inset 0 1px 0 rgba(255,255,255,1), 0 4px 10px rgba(183,110,121,0.25), 0 16px 36px rgba(183,110,121,0.2)' }}
-                transition={{ type: 'spring', stiffness: 300 }}
+                whileHover={{ scale: 1.12, rotate: 5, y: -2 }}
+                transition={{ type: 'spring', stiffness: 280 }}
               >
                 <span role="img" aria-hidden="true">{item.icon}</span>
               </motion.div>
 
-              {/* Content card */}
               <motion.div
-                className="flex-1 pt-1 rounded-2xl px-5 py-4 card-deep-light transition-all duration-400"
+                className="flex-1 pt-1 rounded-2xl px-5 py-4 card-deep-light transition-all duration-300"
                 style={{ background: 'rgba(255,255,255,0.88)', backdropFilter: 'blur(10px)' }}
-                whileHover={{ x: 6, y: -2 }}
+                whileHover={{ x: 5, y: -2 }}
                 transition={{ duration: 0.2 }}
               >
-                {/* Inner top edge */}
-                <div className="absolute top-0 left-0 right-0 h-px rounded-t-2xl bg-white/90" aria-hidden="true" />
-
                 <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-1">
                   <span className="font-display text-rose-gold italic text-base">{item.time}</span>
                   <span className="font-heading text-charcoal text-lg">{item.event}</span>

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
@@ -16,37 +16,37 @@ const stories = [
     year: '2019', season: 'Summer',
     title: 'First Glance',
     body: "A chance encounter at a mutual friend's gathering. One smile across the room and the whole afternoon stood still.",
-    side: 'left', icon: '☀️', photo: '/gallery/p8.jpg',
+    side: 'left', icon: 'â˜€ï¸', photo: '/gallery/p8.jpg',
   },
   {
     year: '2019', season: 'August',
     title: 'First Date',
     body: "A walk along the waterfront, then candlelight and conversation that lasted long past midnight. We never wanted it to end.",
-    side: 'right', icon: '🌊', photo: '/gallery/p2.jpg',
+    side: 'right', icon: 'ðŸŒŠ', photo: '/gallery/p2.jpg',
   },
   {
     year: '2021', season: 'Spring',
     title: 'Home Together',
     body: "After two years of building something beautiful, we made our home together. Every morning became our favourite moment.",
-    side: 'left', icon: '🏡', photo: '/gallery/p11.jpg',
+    side: 'left', icon: 'ðŸ¡', photo: '/gallery/p11.jpg',
   },
   {
     year: '2023', season: 'December',
     title: 'The Proposal',
     body: "On a quiet evening with fairy lights above, he held her hand and asked forever. She said yes before he could finish.",
-    side: 'right', icon: '💍', photo: '/gallery/p9.jpg',
+    side: 'right', icon: 'ðŸ’', photo: '/gallery/p9.jpg',
   },
   {
     year: '2024', season: 'Spring',
     title: 'His Graduation',
-    body: "Celebrating every milestone together — because every achievement belongs to both of us.",
-    side: 'left', icon: '🎓', photo: '/gallery/p12.jpg',
+    body: "Celebrating every milestone together â€” because every achievement belongs to both of us.",
+    side: 'left', icon: 'ðŸŽ“', photo: '/gallery/p12.jpg',
   },
   {
     year: '2026', season: 'September',
     title: 'Forever Begins',
     body: "Now we invite the people we love most to witness us exchange our vows and begin the most beautiful chapter of our lives.",
-    side: 'right', icon: '💐', photo: '/gallery/p13.jpg',
+    side: 'right', icon: 'ðŸ’', photo: '/gallery/p13.jpg',
   },
 ]
 
@@ -54,18 +54,18 @@ export function OurStory() {
   return (
     <section
       id="story"
-      className="relative py-28 overflow-hidden grain"
+      className="relative py-28 overflow-hidden"
       style={{ background: 'linear-gradient(160deg, #f0e8ff 0%, #e8dbff 50%, #ddd0f8 100%)' }}
       aria-labelledby="story-heading"
     >
-      {/* Depth background orbs — three planes of blur depth */}
+      {/* Depth background orbs â€” three planes of blur depth */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-        {/* Far plane — very blurred, large */}
+        {/* Far plane â€” very blurred, large */}
         <div className="absolute rounded-full" style={{ width: 600, height: 600, left: '-10%', top: '5%', background: '#c8a2c8', opacity: 0.18, filter: 'blur(120px)', transform: 'translate(0,0)' }} />
         <div className="absolute rounded-full" style={{ width: 500, height: 500, right: '-8%', bottom: '10%', background: '#9b72aa', opacity: 0.14, filter: 'blur(100px)' }} />
         {/* Mid plane */}
         <div className="absolute rounded-full" style={{ width: 320, height: 320, left: '55%', top: '25%', background: '#b76e79', opacity: 0.10, filter: 'blur(60px)' }} />
-        {/* Near plane — sharper, smaller */}
+        {/* Near plane â€” sharper, smaller */}
         <div className="absolute rounded-full" style={{ width: 140, height: 140, left: '12%', bottom: '18%', background: '#dcc6f0', opacity: 0.22, filter: 'blur(20px)' }} />
         <div className="absolute rounded-full" style={{ width: 100, height: 100, right: '14%', top: '12%', background: '#dcc6f0', opacity: 0.18, filter: 'blur(14px)' }} />
       </div>
@@ -81,7 +81,7 @@ export function OurStory() {
           <SectionDivider />
           <TextReveal delay={0.2}>
             <p className="font-sans text-charcoal-soft text-sm leading-loose max-w-lg mx-auto">
-              Every great love story has its chapters. Here&apos;s ours — written in moments, laughter, and quiet joy.
+              Every great love story has its chapters. Here&apos;s ours â€” written in moments, laughter, and quiet joy.
             </p>
           </TextReveal>
         </ScrollDepth>
@@ -134,7 +134,7 @@ function TimelineItem({ story, index }: { story: typeof stories[0]; index: numbe
               {/* Season badge */}
               <div className="absolute top-3 left-3">
                 <span className="font-display text-white/90 italic text-xs bg-black/25 backdrop-blur-md px-3 py-1 rounded-full border border-white/25">
-                  {story.season} · {story.year}
+                  {story.season} Â· {story.year}
                 </span>
               </div>
               {/* Icon */}
@@ -181,3 +181,4 @@ function TimelineItem({ story, index }: { story: typeof stories[0]; index: numbe
     </div>
   )
 }
+

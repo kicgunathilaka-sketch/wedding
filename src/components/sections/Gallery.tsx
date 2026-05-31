@@ -1,17 +1,11 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import dynamic from 'next/dynamic'
-import { motion, useInView, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion'
+import { motion, useInView, AnimatePresence } from 'framer-motion'
 import { X, Expand } from 'lucide-react'
 import { SectionDivider } from '@/components/ui/SectionDivider'
 import { AnimatedLetters } from '@/components/ui/AnimatedLetters'
 import { BackgroundOrbs }  from '@/components/ui/BackgroundOrbs'
-
-const FloatingPetals3D = dynamic(
-  () => import('@/components/3d/FloatingPetals3D').then((m) => ({ default: m.FloatingPetals3D })),
-  { ssr: false },
-)
 
 const EASE = [0.16, 1, 0.3, 1] as const
 
@@ -52,11 +46,6 @@ export function Gallery() {
       aria-labelledby="gallery-heading"
     >
       <BackgroundOrbs orbs={darkOrbs} opacity={0.2} />
-
-      {/* 3D floating petals — subtle atmospheric layer */}
-      <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 1 }} aria-hidden="true">
-        <FloatingPetals3D className="w-full h-full" />
-      </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
@@ -139,25 +128,28 @@ export function Gallery() {
   )
 }
 
-/* ── Photo tile with 3D tilt + depth shadow ── */
+/* ── Photo tile — CSS-transform tilt (zero per-tile MotionValues) ── */
 function PhotoTile({ photo, index, isInView, onOpen }: {
   photo: Photo; index: number; isInView: boolean; onOpen: () => void
 }) {
-  const tileRef   = useRef<HTMLDivElement>(null)
-  const rawX = useMotionValue(0)
-  const rawY = useMotionValue(0)
-  const rotX = useSpring(useTransform(rawY, [-1, 1], [13, -13]), { stiffness: 200, damping: 30 })
-  const rotY = useSpring(useTransform(rawX, [-1, 1], [-13, 13]), { stiffness: 200, damping: 30 })
-  const glareX = useTransform(rawX, [-1, 1], ['0%', '100%'])
-  const glareY = useTransform(rawY, [-1, 1], ['0%', '100%'])
+  const innerRef = useRef<HTMLDivElement>(null)
 
   function onMove(e: React.MouseEvent<HTMLDivElement>) {
-    if (!tileRef.current) return
-    const { left, top, width, height } = tileRef.current.getBoundingClientRect()
-    rawX.set(((e.clientX - left) / width  - 0.5) * 2)
-    rawY.set(((e.clientY - top)  / height - 0.5) * 2)
+    const el = innerRef.current
+    if (!el) return
+    const { left, top, width, height } = el.getBoundingClientRect()
+    const x = ((e.clientX - left) / width  - 0.5) * 2
+    const y = ((e.clientY - top)  / height - 0.5) * 2
+    el.style.transform = `perspective(900px) rotateX(${(-y * 9).toFixed(1)}deg) rotateY(${(x * 9).toFixed(1)}deg) scale(1.02)`
   }
-  function onLeave() { rawX.set(0); rawY.set(0) }
+
+  function onLeave() {
+    const el = innerRef.current
+    if (!el) return
+    el.style.transition = 'transform 0.55s cubic-bezier(0.16,1,0.3,1)'
+    el.style.transform = ''
+    setTimeout(() => { if (innerRef.current) innerRef.current.style.transition = '' }, 560)
+  }
 
   return (
     <motion.div
@@ -169,39 +161,23 @@ function PhotoTile({ photo, index, isInView, onOpen }: {
       role="button" tabIndex={0}
       onKeyDown={(e) => e.key === 'Enter' && onOpen()}
       aria-label={`View: ${photo.caption}`}
-      style={{ perspective: '900px' }}
     >
-      <motion.div
-        ref={tileRef}
+      <div
+        ref={innerRef}
         onMouseMove={onMove}
         onMouseLeave={onLeave}
-        style={{ rotateX: rotX, rotateY: rotY, transformStyle: 'preserve-3d' }}
+        style={{ transformStyle: 'preserve-3d', willChange: 'transform' }}
         className="relative overflow-hidden rounded-2xl"
-        whileHover={{ scale: 1.02, z: 18 }}
-        transition={{ duration: 0.35, ease: 'easeOut' }}
       >
-        {/* Photo */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={photo.src} alt={photo.caption}
-          className="w-full h-auto block object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.07]"
+          className="w-full h-auto block object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.06]"
           loading="lazy"
         />
 
-        {/* Depth shadow layer */}
-        <div
-          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl pointer-events-none"
-          style={{ boxShadow: 'inset 0 0 40px rgba(0,0,0,0.3)' }}
-        />
-
-        {/* Dark gradient overlay */}
+        {/* Dark overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-bg-void/88 via-bg-void/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-        {/* Glare reflection */}
-        <motion.div
-          className="absolute inset-0 pointer-events-none rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-          style={{ background: `radial-gradient(circle at ${glareX} ${glareY}, rgba(255,255,255,0.1) 0%, transparent 55%)` }}
-        />
 
         {/* Category chip */}
         <div className="absolute top-3 left-3 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-400 pointer-events-none">
@@ -210,7 +186,7 @@ function PhotoTile({ photo, index, isInView, onOpen }: {
           </span>
         </div>
 
-        {/* Expand icon */}
+        {/* Expand */}
         <div className="absolute top-3 right-3 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-400 pointer-events-none">
           <div className="w-7 h-7 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center">
             <Expand size={12} className="text-white/70" />
@@ -222,14 +198,14 @@ function PhotoTile({ photo, index, isInView, onOpen }: {
           <p className="font-heading text-white text-base leading-tight">{photo.caption}</p>
         </div>
 
-        {/* Rose-gold top accent line */}
+        {/* Rose-gold accent line */}
         <motion.div
           className="absolute top-0 left-0 h-[2px] bg-gradient-to-r from-rose-gold to-rose-gold/40"
           animate={isInView ? { width: '35%' } : { width: '0%' }}
           transition={{ duration: 0.7, delay: 0.3 + index * 0.07, ease: EASE }}
           aria-hidden="true"
         />
-      </motion.div>
+      </div>
     </motion.div>
   )
 }

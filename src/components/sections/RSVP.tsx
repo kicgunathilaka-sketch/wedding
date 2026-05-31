@@ -1,7 +1,6 @@
 'use client'
 
-import { useState, useRef, FormEvent, Suspense } from 'react'
-import dynamic from 'next/dynamic'
+import { useState, useRef, FormEvent } from 'react'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
 import { CheckCircle, Send } from 'lucide-react'
 import { SectionDivider } from '@/components/ui/SectionDivider'
@@ -9,12 +8,6 @@ import { AnimatedLetters } from '@/components/ui/AnimatedLetters'
 import { BackgroundOrbs }  from '@/components/ui/BackgroundOrbs'
 
 const EASE = [0.16, 1, 0.3, 1] as const
-
-/* ── Inline crystal decor scene for RSVP ── */
-const RsvpCrystalScene = dynamic(
-  () => import('@/components/3d/RsvpCrystalScene').then((m) => ({ default: m.RsvpCrystalScene })),
-  { ssr: false },
-)
 
 interface FormData { name: string; email: string; phone: string; guests: string; attending: 'yes' | 'no' | ''; dietary: string }
 interface FormErrors { name?: string; email?: string; phone?: string; guests?: string; attending?: string }
@@ -116,11 +109,6 @@ export function RSVP() {
       aria-labelledby="rsvp-heading"
     >
       <BackgroundOrbs orbs={rsvpOrbs} opacity={0.2} />
-
-      {/* 3D crystal scene (behind content at zIndex 2) */}
-      <div className="absolute inset-0" aria-hidden="true">
-        <RsvpCrystalScene />
-      </div>
 
       {/* Animated rings */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden="true">

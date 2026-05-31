@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
@@ -12,10 +12,10 @@ const EASE = [0.16, 1, 0.3, 1] as const
 
 const events = [
   {
-    type: 'ceremony', title: 'Wedding Ceremony', emoji: '💐',
+    type: 'ceremony', title: 'Wedding Ceremony', emoji: 'ðŸ’',
     items: [
       { Icon: Calendar, label: 'Date',       value: 'Saturday, September 12, 2026' },
-      { Icon: Clock,    label: 'Time',       value: '4:00 PM – 5:30 PM' },
+      { Icon: Clock,    label: 'Time',       value: '4:00 PM â€“ 5:30 PM' },
       { Icon: MapPin,   label: 'Venue',      value: 'The Grand Rosewood Chapel' },
       { Icon: MapPin,   label: 'Address',    value: '1234 Vineyard Lane, Napa Valley, CA' },
       { Icon: Shirt,    label: 'Dress Code', value: 'Black Tie' },
@@ -23,10 +23,10 @@ const events = [
     accent: '#b76e79',
   },
   {
-    type: 'reception', title: 'Wedding Reception', emoji: '🥂',
+    type: 'reception', title: 'Wedding Reception', emoji: 'ðŸ¥‚',
     items: [
       { Icon: Calendar, label: 'Date',       value: 'Saturday, September 12, 2026' },
-      { Icon: Clock,    label: 'Time',       value: '6:30 PM – Midnight' },
+      { Icon: Clock,    label: 'Time',       value: '6:30 PM â€“ Midnight' },
       { Icon: MapPin,   label: 'Venue',      value: 'The Crystal Ballroom' },
       { Icon: MapPin,   label: 'Address',    value: '1234 Vineyard Lane, Napa Valley, CA' },
       { Icon: Shirt,    label: 'Dress Code', value: 'Black Tie' },
@@ -42,7 +42,7 @@ export function EventDetails() {
   return (
     <section
       id="details" ref={ref}
-      className="relative py-28 overflow-hidden grain"
+      className="relative py-28 overflow-hidden"
       style={{ background: 'linear-gradient(160deg, #e8dbff 0%, #f0e8ff 50%, #ddd0f8 100%)' }}
       aria-labelledby="details-heading"
     >
@@ -73,7 +73,7 @@ export function EventDetails() {
 
         <div className="grid md:grid-cols-2 gap-8">
           {events.map((ev, i) => (
-            <ScrollDepth key={ev.type} rotateAmount={4}>
+            <ScrollDepth key={ev.type}>
               <motion.div
                 initial={{ opacity: 0, y: 50, filter: 'blur(6px)' }}
                 animate={isInView ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}}
@@ -148,3 +148,4 @@ export function EventDetails() {
     </section>
   )
 }
+
